@@ -9,7 +9,7 @@ dotenv.config();
 
 const app: Express = module.exports = express()
 
-const PORT: string | number = process.env.PORT ?? 4000;
+const PORT: string | number = parseInt(process.env.PORT || "") ?? 4000;
 
 
 console.log(process.env.PORT);
