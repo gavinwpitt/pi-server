@@ -1,0 +1,7 @@
+{
+	"uid": "pi-server",
+	"append": true,
+	"watch": true,
+	"script": "dist/js/app.js",
+	"sourceDir": "/home/gavin/Code/pi-server"
+}
