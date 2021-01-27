@@ -1,8 +1,10 @@
 import dotenv from "dotenv";
 import express, { Express } from "express";
 import cors from "cors";
-import tempRoutes from "./routes";
+import weatherRoutes from "./routes/weather";
+import rfremoteRoutes from "./routes/rfremote";
 import WeatherCollector from "./models/WeatherCollector";
+import RfRemote from "./models/RfRemote";
 import MySqlWrapper from "./lib/MySqlWrapper";
 
 dotenv.config();
@@ -26,8 +28,16 @@ let weatherCollector:WeatherCollector = new WeatherCollector(mySqlInstance);
 weatherCollector.setup();
 app.set('weatherCollector', weatherCollector);
 
+// Create RF remote
+let rfremote:RfRemote = new RfRemote();
+app.set('rfRemote', rfremote);
+
+app.use(express.json());
+app.use(express.urlencoded());
+
 app.use(cors())
-app.use(tempRoutes)
+app.use(weatherRoutes)
+app.use(rfremoteRoutes)
 
 app.listen( PORT, () => {
     console.log("server started at port " + PORT);

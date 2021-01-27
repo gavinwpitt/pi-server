@@ -5,9 +5,12 @@
   "license": "MIT",
   "dependencies": {
     "@types/mysql": "^2.15.17",
+    "await-exec": "^0.1.2",
     "bme280-sensor": "^0.1.7",
+    "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "exec": "^0.2.1",
     "express": "^4.17.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
