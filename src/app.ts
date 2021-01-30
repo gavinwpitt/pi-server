@@ -23,14 +23,14 @@ let mySqlInstance:MySqlWrapper = new MySqlWrapper();
 mySqlInstance.setup();
 app.set('mySqlInstance', mySqlInstance);
 
-// Create and set the weather collector
-let weatherCollector:WeatherCollector = new WeatherCollector(mySqlInstance);
-weatherCollector.setup();
-app.set('weatherCollector', weatherCollector);
-
 // Create RF remote
 let rfremote:RfRemote = new RfRemote();
 app.set('rfRemote', rfremote);
+
+// Create and set the weather collector
+let weatherCollector:WeatherCollector = new WeatherCollector(mySqlInstance, rfremote);
+weatherCollector.setup();
+app.set('weatherCollector', weatherCollector);
 
 app.use(express.json());
 app.use(express.urlencoded());

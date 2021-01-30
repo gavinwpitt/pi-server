@@ -26,14 +26,12 @@ class RfRemote {
     async switch(on:boolean, switchNumbers:number[]) {
         let codes:number[] = on ? this.onSwitchCodeMap : this.offSwitchCodeMap;
 
-        let promises:Promise<ChildProcess> = switchNumbers.map((switchNumber) => {
-            return this.callRfSwitchCommand(codes[switchNumber - 1]);
+        switchNumbers.forEach((switchNumber) => {
+            this.callRfSwitchCommand(codes[switchNumber - 1]);
         });
-
-        await Promise.all(promises);
     }
 
-    async callRfSwitchCommand(switchCode:number) : Promise<ChildProcess> {
+    async callRfSwitchCommand(switchCode:number) {
         let command = `/var/www/html/rfoutlet/codesend ${switchCode} -l ${188} -p ${0}`;
         execSync(command);          
     }
