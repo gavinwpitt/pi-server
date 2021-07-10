@@ -15,6 +15,7 @@ class WeatherCollector {
     private rfRemote:RfRemote;
 
     // space heater settings
+    private enableRFSwitching:boolean;
     private spaceHeaterSwitchNumber:number;
     private tempThresholds:SpaceHeaterThresholdsType;
 
@@ -27,6 +28,7 @@ class WeatherCollector {
         this.rfRemote = rfRemote;
         this.spaceHeaterSwitchNumber = 1;
         this.tempThresholds = { lowerThreshold: 60, upperThreshold: 65 }
+        this.enableRFSwitching = false;
     }
 
     public async setup() {
@@ -45,15 +47,17 @@ class WeatherCollector {
                 this.weatherObjects.shift();
             };
 
-            // TODO: Clean this up, move it somewhere else maybe
-            // If temperature falls below a certain level, turn on the space heater :)
-            if (sensorRead.Temperature < this.tempThresholds.lowerThreshold) {
-                await this.rfRemote.switch(true, [ this.spaceHeaterSwitchNumber ]);
-            }
-            
-            // If temperature rises above a certain level, turn off the space heater
-            if (sensorRead.Temperature > this.tempThresholds.upperThreshold) {
-                await this.rfRemote.switch(false, [ this.spaceHeaterSwitchNumber ]);
+            if (this.enableRFSwitching) {
+                // TODO: Clean this up, move it somewhere else maybe
+                // If temperature falls below a certain level, turn on the space heater :)
+                if (sensorRead.Temperature < this.tempThresholds.lowerThreshold) {
+                    await this.rfRemote.switch(true, [ this.spaceHeaterSwitchNumber ]);
+                }
+                
+                // If temperature rises above a certain level, turn off the space heater
+                if (sensorRead.Temperature > this.tempThresholds.upperThreshold) {
+                    await this.rfRemote.switch(false, [ this.spaceHeaterSwitchNumber ]);
+                }
             }
             
         }, period)
